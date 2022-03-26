@@ -174,7 +174,7 @@ void saveSettings(uint8_t mode){
   flashBuffer->settingsChecksum = systemSettings.settingsChecksum;
   flashBuffer->settings = systemSettings.settings;
 
-  if((mode==keepProfiles) && (systemSettings.settings.currentProfile<=profile_C210) && (systemSettings.Profile.ID == profile )){
+  if((mode==keepProfiles) && (systemSettings.settings.currentProfile<=profile_LAST) && (systemSettings.Profile.ID == profile )){
     systemSettings.ProfileChecksum = ChecksumProfile(&systemSettings.Profile);
     flashBuffer->ProfileChecksum[profile] = systemSettings.ProfileChecksum;
     flashBuffer->Profile[profile] = systemSettings.Profile;
@@ -327,6 +327,7 @@ void resetCurrentProfile(void){
     systemSettings.Profile.currentNumberOfTips      = 1;
     systemSettings.Profile.currentTip               = 0;
     systemSettings.Profile.impedance                = 80;             // 8.0 Ohms
+    systemSettings.Profile.supplyVoltage            = 0;              // use measured value
     systemSettings.Profile.power                    = 80;             // 80W
     systemSettings.Profile.noIronValue              = 4000;
     systemSettings.Profile.Cal250_default           = T12_Cal250;
@@ -349,6 +350,7 @@ void resetCurrentProfile(void){
     systemSettings.Profile.currentNumberOfTips      = 1;
     systemSettings.Profile.currentTip               = 0;
     systemSettings.Profile.impedance                = 26;
+    systemSettings.Profile.supplyVoltage            = 0;              // use measured value
     systemSettings.Profile.power                    = 150;
     systemSettings.Profile.noIronValue              = 4000;
     systemSettings.Profile.Cal250_default           = C245_Cal250;
@@ -368,13 +370,36 @@ void resetCurrentProfile(void){
       strcpy(systemSettings.Profile.tip[x].name, _BLANK_TIP);
     }
     strcpy(systemSettings.Profile.tip[0].name, "C210");
-    systemSettings.Profile.currentNumberOfTips      = 1;
+    systemSettings.Profile.currentNumberOfTips    = 1;
     systemSettings.Profile.currentTip             = 0;
+    systemSettings.Profile.supplyVoltage          = 0;              // use measured value
     systemSettings.Profile.power                  = 80;
     systemSettings.Profile.impedance              = 21;
     systemSettings.Profile.noIronValue            = 1200;
     systemSettings.Profile.Cal250_default         = C210_Cal250;
     systemSettings.Profile.Cal400_default         = C210_Cal400;
+  }
+  else if(systemSettings.settings.currentProfile==profile_C115){
+    systemSettings.Profile.ID = profile_C115;
+    for(uint8_t x = 0; x < TipSize; x++) {
+      systemSettings.Profile.tip[x].calADC_At_250   = C115_Cal250;
+      systemSettings.Profile.tip[x].calADC_At_400   = C115_Cal400;
+      systemSettings.Profile.tip[x].PID.Kp          = 1800;
+      systemSettings.Profile.tip[x].PID.Ki          = 500;
+      systemSettings.Profile.tip[x].PID.Kd          = 200;
+      systemSettings.Profile.tip[x].PID.maxI        = 85;
+      systemSettings.Profile.tip[x].PID.minI        = 0;
+      strcpy(systemSettings.Profile.tip[x].name, _BLANK_TIP);
+    }
+    strcpy(systemSettings.Profile.tip[0].name, "C115");
+    systemSettings.Profile.currentNumberOfTips    = 1;
+    systemSettings.Profile.currentTip             = 0;
+    systemSettings.Profile.supplyVoltage          = 90;  // 9 V
+    systemSettings.Profile.power                  = 16;  // 16 W
+    systemSettings.Profile.impedance              = 34;  // 3.4 Ohm
+    systemSettings.Profile.noIronValue            = 1200;
+    systemSettings.Profile.Cal250_default         = C115_Cal250;
+    systemSettings.Profile.Cal400_default         = C115_Cal400;
   }
   else{
     Error_Handler();  // We shouldn't get here!
@@ -437,7 +462,7 @@ void loadProfile(uint8_t profile){
     __enable_irq();
     systemSettings.settings.currentProfile=profile_None;                        // Revert to none to trigger setup screen
   }
-  else if(profile<=profile_C210){                                               // If valid profile
+  else if(profile<=profile_LAST){                                               // If valid profile
     if(flashSettings.Profile[profile].state!=initialized){                      // If flash profile not initialized
       __disable_irq();
       resetCurrentProfile();                                                    // Load defaults

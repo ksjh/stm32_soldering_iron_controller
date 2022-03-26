@@ -13,9 +13,9 @@
 #include "board.h"
 
 #define SWSTRING          "SW: "__DATE__                            // Software version reported in settings screen
-#define SETTINGS_VERSION  15                                        // Change this if you change the settings/profile struct to prevent getting out of sync
+#define SETTINGS_VERSION  16                                        // Change this if you change the settings/profile struct to prevent getting out of sync
 #define LANGUAGE_COUNT    5                                         // Number of languages
-#define ProfileSize       3                                         // Number of profiles
+#define ProfileSize       4                                         // Number of profiles
 #define TipSize           20                                        // Number of tips for each profile
 #define TipCharSize       5                                         // String size for each tip name (Including null termination)
 #define _BLANK_TIP        "    "                                    // Empty tip name, 4 spaces. Defined here for quick updating if TipCharSize is modified.
@@ -33,6 +33,10 @@
 #define C245_Cal250       900
 #define C245_Cal350       1000
 #define C245_Cal450       1100
+
+#define C115_Cal250       300
+#define C115_Cal350       400
+#define C115_Cal450       500
 
 #endif
 
@@ -86,6 +90,8 @@ typedef enum{
   profile_T12             = 0,
   profile_C245            = 1,
   profile_C210            = 2,
+  profile_C115            = 3,
+  profile_LAST            = profile_C115,
   profile_None            = 0xff,
 
   save_Settings           = 1,
@@ -168,6 +174,7 @@ __attribute__((aligned(4))) typedef struct{
   uint16_t      readPeriod;
   uint16_t      readDelay;
   uint16_t      noIronValue;
+  uint16_t      supplyVoltage;
   uint16_t      power;
   uint16_t      calADC_At_0;
   uint16_t      Cal250_default;

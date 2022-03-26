@@ -729,7 +729,7 @@ const strings_t strings[LANGUAGE_COUNT] = {
 
 
 char * tempUnit[2] =    { "\260C", "\260F" };
-char * profileStr[ProfileSize] = { "T12", "C245", "C210" };
+char * profileStr[ProfileSize] = { "T12", "C245", "C210", "C115" };
 char * Langs[LANGUAGE_COUNT] = {
                                    [lang_english] = "EN",
                                    [lang_russian] = "RU",

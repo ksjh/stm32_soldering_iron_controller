@@ -86,7 +86,7 @@ void handleIron(void) {
   CurrentTime = HAL_GetTick();
   if(!Iron.Error.safeMode){
     if( (systemSettings.setupMode==enable) || systemSettings.settings.state!=initialized || systemSettings.Profile.state!=initialized ||
-        (systemSettings.Profile.ID != systemSettings.settings.currentProfile) || (systemSettings.settings.currentProfile>profile_C210)){
+        (systemSettings.Profile.ID != systemSettings.settings.currentProfile) || (systemSettings.settings.currentProfile>profile_LAST)){
 
       setSafeMode(enable);
     }
@@ -420,7 +420,11 @@ void runAwayCheck(void){
 // Update PWM max value based on current supply voltage, heater resistance and power limit setting
 #ifdef USE_VIN
 void updatePowerLimit(void){
-  uint32_t volts = getSupplyVoltage_v_x10();                                                // Get last voltage reading x10
+
+  uint32_t volts = systemSettings.Profile.supplyVoltage;
+  if(volts == 0) {
+	getSupplyVoltage_v_x10();                                                               // Get last voltage reading x10
+  }
   volts = (volts*volts)/10;                                                                 // (Vx10 * Vx10)/10 = (V*V)*10 (x10 for fixed point precision)
   if(volts==0){
     volts=1;                                                                                // set minimum value to avoid division by 0
@@ -582,7 +586,7 @@ void checkIronError(void){
       Err.NTC_high =  (last_NTC_C > 800);
       Err.NTC_low =  (last_NTC_C < -200);
       #ifdef USE_VIN
-      Err.V_low = (getSupplyVoltage_v_x10() < systemSettings.settings.lvp);
+      Err.V_low = (systemSettings.Profile.supplyVoltage == 0) && (getSupplyVoltage_v_x10() < systemSettings.settings.lvp);
       #endif
   }
 
