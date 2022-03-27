@@ -327,7 +327,7 @@ void resetCurrentProfile(void){
     systemSettings.Profile.currentNumberOfTips      = 1;
     systemSettings.Profile.currentTip               = 0;
     systemSettings.Profile.impedance                = 80;             // 8.0 Ohms
-    systemSettings.Profile.supplyVoltage            = 0;              // use measured value
+    systemSettings.Profile.ironVoltage            = 0;              // use measured value
     systemSettings.Profile.power                    = 80;             // 80W
     systemSettings.Profile.noIronValue              = 4000;
     systemSettings.Profile.Cal250_default           = T12_Cal250;
@@ -350,7 +350,7 @@ void resetCurrentProfile(void){
     systemSettings.Profile.currentNumberOfTips      = 1;
     systemSettings.Profile.currentTip               = 0;
     systemSettings.Profile.impedance                = 26;
-    systemSettings.Profile.supplyVoltage            = 0;              // use measured value
+    systemSettings.Profile.ironVoltage            = 0;              // use measured value
     systemSettings.Profile.power                    = 150;
     systemSettings.Profile.noIronValue              = 4000;
     systemSettings.Profile.Cal250_default           = C245_Cal250;
@@ -372,7 +372,7 @@ void resetCurrentProfile(void){
     strcpy(systemSettings.Profile.tip[0].name, "C210");
     systemSettings.Profile.currentNumberOfTips    = 1;
     systemSettings.Profile.currentTip             = 0;
-    systemSettings.Profile.supplyVoltage          = 0;              // use measured value
+    systemSettings.Profile.ironVoltage          = 0;              // use measured value
     systemSettings.Profile.power                  = 80;
     systemSettings.Profile.impedance              = 21;
     systemSettings.Profile.noIronValue            = 1200;
@@ -394,7 +394,7 @@ void resetCurrentProfile(void){
     strcpy(systemSettings.Profile.tip[0].name, "C115");
     systemSettings.Profile.currentNumberOfTips    = 1;
     systemSettings.Profile.currentTip             = 0;
-    systemSettings.Profile.supplyVoltage          = 90;  // 9 V
+    systemSettings.Profile.ironVoltage          = 90;  // 9 V
     systemSettings.Profile.power                  = 16;  // 16 W
     systemSettings.Profile.impedance              = 34;  // 3.4 Ohm
     systemSettings.Profile.noIronValue            = 1200;

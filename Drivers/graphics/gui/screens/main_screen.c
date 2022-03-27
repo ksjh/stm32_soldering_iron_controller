@@ -190,10 +190,10 @@ static void * main_screen_getIronTemp() {
 #ifdef USE_VIN
 static void * main_screen_getVin() {
   if(mainScr.updateReadings){
-	if(systemSettings.Profile.supplyVoltage == 0) {
+	if(systemSettings.Profile.ironVoltage == 0) {
       mainScr.lastVin = getSupplyVoltage_v_x10();
 	} else {
-		mainScr.lastVin = systemSettings.Profile.supplyVoltage;
+		mainScr.lastVin = systemSettings.Profile.ironVoltage;
 	}
   }
   temp=mainScr.lastVin;

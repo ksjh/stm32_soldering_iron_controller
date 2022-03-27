@@ -420,8 +420,7 @@ void runAwayCheck(void){
 // Update PWM max value based on current supply voltage, heater resistance and power limit setting
 #ifdef USE_VIN
 void updatePowerLimit(void){
-
-  uint32_t volts = systemSettings.Profile.supplyVoltage;
+  uint32_t volts = systemSettings.Profile.ironVoltage;
   if(volts == 0) {
 	getSupplyVoltage_v_x10();                                                               // Get last voltage reading x10
   }
@@ -586,7 +585,7 @@ void checkIronError(void){
       Err.NTC_high =  (last_NTC_C > 800);
       Err.NTC_low =  (last_NTC_C < -200);
       #ifdef USE_VIN
-      Err.V_low = (systemSettings.Profile.supplyVoltage == 0) && (getSupplyVoltage_v_x10() < systemSettings.settings.lvp);
+      Err.V_low = (systemSettings.Profile.ironVoltage == 0) && (getSupplyVoltage_v_x10() < systemSettings.settings.lvp);
       #endif
   }
 

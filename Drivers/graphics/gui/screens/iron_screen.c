@@ -121,6 +121,14 @@ static void setMaxPower(uint32_t *val) {
   systemSettings.Profile.power = *val;
 }
 //=========================================================
+static void * getIronVoltage() {
+  temp = systemSettings.Profile.ironVoltage;
+  return &temp;
+}
+static void setIronVoltage(uint32_t *val) {
+  systemSettings.Profile.ironVoltage = *val;
+}
+//=========================================================
 static void * getTipImpedance() {
   temp = systemSettings.Profile.impedance;
   return &temp;
@@ -656,6 +664,20 @@ static void iron_create(screen_t *scr){
   edit->setData = (void (*)(void *))&setBoostTemp;
 
   #ifdef USE_VIN
+  //  [ Iron Voltage Widget ]
+  //
+  newComboEditable(w, strings[lang].IRON_Voltage, &edit, NULL);
+  dis=&edit->inputData;
+  dis->reservedChars=6;
+  dis->number_of_dec=1;
+  dis->endString="V";
+  dis->getData = &getIronVoltage;
+  edit->big_step = 10;
+  edit->step = 1;
+  edit->setData = (void (*)(void *))&setIronVoltage;
+  edit->max_value = 999;
+  edit->min_value = 0;
+
   //  [ Power Widget ]
   //
   newComboEditable(w, strings[lang].IRON_Power, &edit, NULL);

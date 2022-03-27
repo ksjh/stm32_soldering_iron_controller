@@ -41,6 +41,7 @@ typedef struct{
   char * IRON_Sleep;
   char * IRON_Boost;
   char * IRON_Boost_Add;
+  char * IRON_Voltage;
   char * IRON_Power;
   char * IRON_Heater;
   char * IRON_ADC_Time;
